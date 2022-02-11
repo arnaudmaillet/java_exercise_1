@@ -1,27 +1,42 @@
-import java.util.Scanner;
+import java.util.*;
+import java.util.stream.Stream;
 
 public class Launcher {
     public static void main(String[] args) {
-        Scanner scan = new Scanner(System.in);
         System.out.println("Bienvenue !");
-        System.out.println("Entrer une commande : ");
+        Scanner sc_main = new Scanner(System.in);
+        List<Command> list_command = new ArrayList<>();
+        list_command.add(new Quit());
+        list_command.add(new Fibo());
+        list_command.add(new Freq());
         while (true) {
-            String str = new String(scan.next());
-            if (str.equals("quit")) {
+            int isCommand = 0;
+            System.out.println("Entrer une commande : ");
+            String user_in = sc_main.nextLine();
+            for (Command command : list_command) {
+                if (command.name().equals(user_in)) {
+                    if (command.run(sc_main) == true) {
+                        isCommand = 1;
+                    } else {
+                        isCommand = 2;
+                    }
+                }
+            }
+            if (isCommand == 1){
                 break;
-            } else if (str.equals("fibo")) {
-                System.out.println("Entrer un nombre: ");
-                System.out.println("Fibonacci result : " + fibo(scan.nextInt()));
+            } else if (isCommand == 2){
+                continue;
             } else {
                 System.out.println("Unknown command");
             }
-            System.out.println("Entrer une commande : ");
+            //if (quit_command.run(sc_main) == true) {
+            //    break;
+            //} else if (fibo_command.run(sc_main) == true) {
+            //    continue;
+            //} else if (freq_command.run(sc_main) == true) {
+            //    continue;
+            //}
         }
-    }
-
-    private static int fibo(int n) {
-        if (n <= 1) return n;
-        else return fibo(n-1) + fibo(n-2);
     }
 }
 
